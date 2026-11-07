@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Prediction History | Fake News Detector</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #101827;
+            color: white;
+            min-height: 100vh;
+            padding: 30px 15px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: #253247;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        h1 {
+            color: #60a5fa;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        th, td {
+            padding: 14px;
+            border-bottom: 1px solid #475569;
+            text-align: left;
+        }
+
+        th {
+            background: #172235;
+            color: #60a5fa;
+        }
+
+        tr:hover {
+            background: #334155;
+        }
+
+        .real {
+            color: #4ade80;
+            font-weight: bold;
+        }
+
+        .fake {
+            color: #f87171;
+            font-weight: bold;
+        }
+
+        .uncertain {
+            color: #facc15;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #cbd5e1;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Prediction History</h1>
+
+        <a href="/" class="back">← Back to Home</a>
+
+        {% if records %}
+
+        <div class="table-wrapper">
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>News Article</th>
+                        <th>Prediction</th>
+                        <th>Confidence</th>
+                        <th>Date & Time</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for record in records %}
+                    <tr>
+
+                        <td>{{ record[0] }}</td>
+
+                        <td>{{ record[1][:150] }}...</td>
+
+                        <td class="{% if record[2] == 'REAL' %}real{% elif record[2] == 'FAKE' %}fake{% else %}uncertain{% endif %}">
+                            {{ record[2] }}
+                        </td>
+
+                        <td>{{ record[3] }}%</td>
+
+                        <td>{{ record[4] }}</td>
+
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+        </div>
+
+        {% else %}
+
+        <div class="empty">
+            No prediction history available yet.
+        </div>
+
+        {% endif %}
+
+        <footer>
+            Smart Fake News Detection System
+        </footer>
+
+    </div>
+
+</body>
+</html>
